@@ -3,31 +3,24 @@
 	"id": "marksman",
 	"version": "${version}",
 	"name": "Marksman",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds coinshots from Ultrakill",
 	"authors": [
-		"Me!"
+		"ThePotatoArchivist"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/marksman",
+		"sources": "https://github.com/ThePotatoArchivist/Marksman"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/marksman/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
 			"archives.tater.marksman.Marksman"
-		],
-		"client": [
-			"archives.tater.marksman.MarksmanClient"
 		]
 	},
 	"mixins": [
-		"marksman.mixins.json",
-		{
-			"config": "marksman.client.mixins.json",
-			"environment": "client"
-		}
+		"marksman.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.16.10",
