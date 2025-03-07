@@ -39,6 +39,10 @@ public class Marksman implements ModInitializer {
 
 	public static final TagKey<Item> COIN_TAG = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "coin"));
 
+	public static final float COIN_VEL_MULT = 2;
+	public static final float COIN_VERT_VEL_ADD = 0.2f;
+	public static final float OWN_VERT_VEL_MULT = 0.5f;
+
 	public static final ProjectileDeflection AIM_AT_TARGET = (projectile, hitEntity, random) -> {
 		if (hitEntity instanceof Ricoshottable ricoshottable)
 			ricoshottable.marksman$setRicoshotted();
@@ -61,7 +65,7 @@ public class Marksman implements ModInitializer {
 		projectile.setOwner(owner);
 		projectile.setVelocity(difference.x, difference.y + (projectile.hasNoGravity() || projectile instanceof ExplosiveProjectileEntity ? 0 : horizontalDistance * 0.2F * 1.6f / power), difference.z, power, 0);
 		projectile.setPosition(projectile.getPos().subtract(projectile.getVelocity()));
-		projectile.playSound(SoundEvents.ENTITY_ARROW_HIT_PLAYER, 1f, 1f);
+		projectile.playSound(SoundEvents.ENTITY_ARROW_HIT_PLAYER, 0.8f, 0.8f + 0.2f * random.nextFloat());
 	};
 
 	public static @Nullable Entity getTarget(World world, Entity owner, Entity hitEntity, Random random) {
@@ -69,10 +73,10 @@ public class Marksman implements ModInitializer {
 		if (!ricoshottables.isEmpty())
 			return minBy(ricoshottables, entity -> entity.squaredDistanceTo(hitEntity));
 		if (!(owner instanceof LivingEntity livingEntity)) return null;
-		if (livingEntity instanceof MobEntity mobEntity && isValidTarget(owner, mobEntity.getTarget()))
+		if (livingEntity instanceof MobEntity mobEntity && isValidTarget(hitEntity, mobEntity.getTarget()))
 			return mobEntity.getTarget();
-		if (isValidTarget(owner, livingEntity.getAttacking())) return livingEntity.getAttacking();
-		if (isValidTarget(owner, livingEntity.getLastAttacker())) return livingEntity.getLastAttacker();
+		if (isValidTarget(hitEntity, livingEntity.getAttacking())) return livingEntity.getAttacking();
+		if (isValidTarget(hitEntity, livingEntity.getLastAttacker())) return livingEntity.getLastAttacker();
 		var targets = world.getOtherEntities(owner, Box.of(hitEntity.getPos(), 64, 64, 64), Util.and(getTargetPredicate(owner), entity1 -> isValidTarget(hitEntity, entity1)));
 		if (!targets.isEmpty())
 			return minBy(targets, entity -> entity.squaredDistanceTo(hitEntity));
