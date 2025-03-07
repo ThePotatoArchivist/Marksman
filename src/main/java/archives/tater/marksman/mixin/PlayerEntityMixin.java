@@ -55,10 +55,11 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             original.call(instance, vx, vy, vz);
             return;
         }
+        var movement = getMovement();
         original.call(instance,
-                (getX() - prevX) + Marksman.COIN_VEL_MULT * vx,
-                Marksman.OWN_VERT_VEL_MULT * (getY() - prevY) + Marksman.COIN_VEL_MULT * vy + Marksman.COIN_VERT_VEL_ADD,
-                (getZ() -  prevZ) + Marksman.COIN_VEL_MULT * vz);
+                movement.x + Marksman.COIN_VEL_MULT * vx,
+                (isOnGround() ? Marksman.OWN_VERT_VEL_MULT * movement.y : 0) + Marksman.COIN_VEL_MULT * vy + Marksman.COIN_VERT_VEL_ADD,
+                movement.z + Marksman.COIN_VEL_MULT * vz);
     }
 
     @Inject(
