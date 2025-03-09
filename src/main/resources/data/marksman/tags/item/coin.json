@@ -2,6 +2,15 @@
   "values": [
     "minecraft:emerald",
     "minecraft:gold_nugget",
-    "minecraft:iron_nugget"
+    "minecraft:iron_nugget",
+    {"id": "camphor:stone_coin", "required": false},
+    {"id": "camphor:copper_coin", "required": false},
+    {"id": "camphor:iron_coin", "required": false},
+    {"id": "camphor:gold_coin", "required": false},
+    {"id": "camphor:diamond_coin", "required": false},
+    {"id": "extravaganza:common_festive_coin", "required": false},
+    {"id": "extravaganza:uncommon_festive_coin", "required": false},
+    {"id": "extravaganza:golden_festive_coin", "required": false},
+    {"id": "terrifictickets:token", "required": false}
   ]
 }
