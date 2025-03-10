@@ -82,18 +82,18 @@ public class Marksman implements ModInitializer {
 		if (!ricoshottables.isEmpty())
 			return minBy(ricoshottables, entity -> entity.squaredDistanceTo(hitEntity));
 		if (!(owner instanceof LivingEntity livingEntity)) return null;
-		if (livingEntity instanceof MobEntity mobEntity && isValidTarget(hitEntity, mobEntity.getTarget()))
+		if (livingEntity instanceof MobEntity mobEntity && isValidTarget(owner, hitEntity, mobEntity.getTarget()))
 			return mobEntity.getTarget();
-		if (isValidTarget(hitEntity, livingEntity.getAttacking())) return livingEntity.getAttacking();
-		if (isValidTarget(hitEntity, livingEntity.getLastAttacker())) return livingEntity.getLastAttacker();
-		var targets = world.getOtherEntities(hitEntity, Box.of(hitEntity.getPos(), 64, 16, 64), Util.and(getTargetPredicate(owner), entity1 -> isValidTarget(hitEntity, entity1)));
+		if (isValidTarget(owner, hitEntity, livingEntity.getAttacking())) return livingEntity.getAttacking();
+		if (isValidTarget(owner, hitEntity, livingEntity.getLastAttacker())) return livingEntity.getLastAttacker();
+		var targets = world.getOtherEntities(hitEntity, Box.of(hitEntity.getPos(), 64, 16, 64), Util.and(getTargetPredicate(owner), entity1 -> isValidTarget(owner, hitEntity, entity1)));
 		if (!targets.isEmpty())
 			return minBy(targets, entity -> entity.squaredDistanceTo(hitEntity));
 		return null;
 	}
 
-	private static boolean isValidTarget(Entity source, @Nullable Entity target) {
-		if (target == null || !target.isAlive()) return false;
+	private static boolean isValidTarget(Entity owner, Entity source, @Nullable Entity target) {
+		if (target == null || target == owner || !target.isAlive()) return false;
 		var targetPos = getTargetPos(target, 0.75);
         return targetPos.isWithinRangeOf(source.getPos(), 64, 16)
 				&& source.getWorld().raycast(new RaycastContext(source.getPos(), targetPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, source)).getType() != HitResult.Type.BLOCK;
@@ -103,7 +103,7 @@ public class Marksman implements ModInitializer {
 		return entity instanceof MobEntity mobEntity
 				? entity1 -> entity1 instanceof LivingEntity livingEntity && mobEntity.canTarget(livingEntity)
 				: entity instanceof PlayerEntity
-					? entity1 -> entity1 instanceof Monster || entity1 instanceof MobEntity mobEntity && mobEntity.getTarget() == entity || entity1 instanceof LivingEntity livingEntity && livingEntity.getAttacking() == entity
+					? entity1 -> entity1 instanceof Monster || entity1 instanceof PlayerEntity || entity1 instanceof MobEntity mobEntity && mobEntity.getTarget() == entity || entity1 instanceof LivingEntity livingEntity && livingEntity.getAttacking() == entity
 					: null;
 	}
 
