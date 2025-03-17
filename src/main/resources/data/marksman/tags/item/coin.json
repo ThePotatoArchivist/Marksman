@@ -11,6 +11,7 @@
     {"id": "extravaganza:common_festive_coin", "required": false},
     {"id": "extravaganza:uncommon_festive_coin", "required": false},
     {"id": "extravaganza:golden_festive_coin", "required": false},
-    {"id": "terrifictickets:token", "required": false}
+    {"id": "terrifictickets:token", "required": false},
+    {"id": "impillagers:coin", "required": false}
   ]
 }
