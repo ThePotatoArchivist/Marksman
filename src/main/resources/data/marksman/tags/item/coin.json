@@ -12,6 +12,7 @@
     {"id": "extravaganza:uncommon_festive_coin", "required": false},
     {"id": "extravaganza:golden_festive_coin", "required": false},
     {"id": "terrifictickets:token", "required": false},
-    {"id": "impillagers:coin", "required": false}
+    {"id": "impillagers:gold_coin", "required": false},
+    {"id": "zeldacraft:emerald_shard", "required": false}
   ]
 }
