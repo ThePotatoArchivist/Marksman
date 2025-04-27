@@ -1,20 +1,24 @@
 package archives.tater.marksman;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ProjectileDeflection;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.minecraft.entity.*;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.Item;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Unit;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -32,13 +36,34 @@ import static archives.tater.marksman.Util.getTargetPos;
 import static archives.tater.marksman.Util.minBy;
 
 
+@SuppressWarnings("UnstableApiUsage")
 public class Marksman implements ModInitializer {
 	public static final String MOD_ID = "marksman";
+
+	public static Identifier id(String path) {
+		return Identifier.of(MOD_ID, path);
+	}
 
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+	public static final AttachmentType<Unit> RICOSHOTTED = AttachmentRegistry.create(id("ricoshotted"), builder -> builder
+			.initializer(() -> Unit.INSTANCE)
+			.persistent(Unit.CODEC)
+			.syncWith(PacketCodec.unit(Unit.INSTANCE), AttachmentSyncPredicate.all())
+	);
+
+	public static final EntityType<CoinProjectileEntity> COIN_PROJECTILE = Registry.register(
+			Registries.ENTITY_TYPE,
+			id("coin"),
+			EntityType.Builder.<CoinProjectileEntity>create(CoinProjectileEntity::new, SpawnGroup.MISC)
+					.dimensions(0.25f, 0.25f)
+					.maxTrackingRange(4)
+					.trackingTickInterval(10)
+					.build()
+	);
 
 	public static final TagKey<Item> COIN_TAG = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "coin"));
 
@@ -112,7 +137,5 @@ public class Marksman implements ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
-
-		LOGGER.info("Hello Fabric world!");
 	}
 }

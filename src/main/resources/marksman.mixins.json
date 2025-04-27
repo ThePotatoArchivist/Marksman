@@ -3,9 +3,10 @@
   "package": "archives.tater.marksman.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EntityMixin",
     "ItemEntityMixin",
     "PlayerEntityMixin",
-    "ProjectileEntityMixin"
+    "ServerPlayNetworkHandlerAnonymousMixin"
   ],
   "injectors": {
     "defaultRequire": 1

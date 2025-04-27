@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"archives.tater.marksman.Marksman"
+		],
+		"client": [
+			"archives.tater.marksman.MarksmanClient"
 		]
 	},
 	"mixins": [
