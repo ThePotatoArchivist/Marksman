@@ -48,7 +48,7 @@ public class CoinProjectileEntity extends ThrownItemEntity {
         super.onCollision(hitResult);
         if (!this.getWorld().isClient) {
             this.discard();
-            getWorld().spawnEntity(new ItemEntity(getWorld(), getX(), getY(), getZ(), getStack(), 0, 0, 0));
+            getWorld().spawnEntity(new ItemEntity(getWorld(), getX(), getY(), getZ(), getStack(), 0, 0.5, 0));
         }
     }
 }
