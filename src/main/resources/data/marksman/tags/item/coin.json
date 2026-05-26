@@ -1,8 +1,5 @@
 {
   "values": [
-    "minecraft:emerald",
-    "minecraft:gold_nugget",
-    "minecraft:iron_nugget",
     {"id": "camphor:stone_coin", "required": false},
     {"id": "camphor:copper_coin", "required": false},
     {"id": "camphor:iron_coin", "required": false},
@@ -13,6 +10,13 @@
     {"id": "extravaganza:golden_festive_coin", "required": false},
     {"id": "terrifictickets:token", "required": false},
     {"id": "impillagers:gold_coin", "required": false},
-    {"id": "zeldacraft:emerald_shard", "required": false}
+    {"id": "zeldacraft:emerald_shard", "required": false},
+    {"id": "createdeco:copper_coin", "required": false},
+    {"id": "createdeco:zinc_coin", "required": false},
+    {"id": "createdeco:iron_coin", "required": false},
+    {"id": "createdeco:industrial_iron_coin", "required": false},
+    {"id": "createdeco:brass_coin", "required": false},
+    {"id": "createdeco:gold_coin", "required": false},
+    {"id": "createdeco:netherite_coin", "required": false}
   ]
 }

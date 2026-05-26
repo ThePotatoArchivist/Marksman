@@ -4,6 +4,10 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
+
 import net.minecraft.entity.*;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
@@ -26,10 +30,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import static archives.tater.marksman.Util.getTargetPos;
@@ -132,10 +138,27 @@ public class Marksman implements ModInitializer {
 					: null;
 	}
 
+	private static final List<String> COIN_ADDING_MODS = List.of(
+			"camphor",
+			"extravaganza",
+			"terrifictickets",
+			"impillagers",
+			"zeldacraft",
+			"createdeco"
+	);
+
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
+
+		ResourceManagerHelper.registerBuiltinResourcePack(
+				id("vanilla_coins"),
+				FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow(),
+				COIN_ADDING_MODS.stream().anyMatch(FabricLoader.getInstance()::isModLoaded)
+						? ResourcePackActivationType.NORMAL
+						: ResourcePackActivationType.DEFAULT_ENABLED
+		);
 	}
 }
