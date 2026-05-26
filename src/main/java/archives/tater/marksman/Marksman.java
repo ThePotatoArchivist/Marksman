@@ -88,8 +88,11 @@ public class Marksman implements ModInitializer {
 						: projectile.getOwner();
 		var target = owner != null && hitEntity != null ? getTarget(projectile.getWorld(), owner, hitEntity, random) : null;
 
-		if (hitEntity != null)
+		if (hitEntity != null) {
 			projectile.setPosition(hitEntity.getPos());
+			hitEntity.setVelocity(projectile.getVelocity().normalize().multiply(0.2));
+			hitEntity.velocityDirty = true;
+		}
         var targetVelocity = target == null ? Vec3d.ZERO : target.getMovement();
 		var targetDelta = target == null
 				? new Vec3d(2 * random.nextDouble() - 1, 2 * random.nextDouble() - 1, 2 * random.nextDouble() - 1)
