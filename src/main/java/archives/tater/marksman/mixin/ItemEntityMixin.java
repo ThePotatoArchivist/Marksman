@@ -40,7 +40,7 @@ public abstract class ItemEntityMixin extends Entity implements Ricoshottable {
 		if (!source.isDirect() || !marksman$canBeRicoshotted(false)) return;
 		var attacker = source.getAttacker();
 		if (attacker == null) return;
-        var coinProjectile = new CoinProjectileEntity(getWorld(), attacker instanceof LivingEntity livingEntity ? livingEntity : null, getPos());
+        var coinProjectile = new CoinProjectileEntity(getWorld(), attacker instanceof LivingEntity livingEntity ? livingEntity : null, getStack(), getPos());
 		coinProjectile.setVelocity(attacker, attacker.getPitch(), attacker.getYaw(), 0f, 1.5f, 0.1f);
 		getWorld().spawnEntity(coinProjectile);
 		discard();

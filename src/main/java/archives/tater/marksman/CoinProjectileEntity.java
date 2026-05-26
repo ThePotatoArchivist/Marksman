@@ -6,6 +6,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -18,16 +19,18 @@ public class CoinProjectileEntity extends ThrownItemEntity {
         super(entityType, world);
     }
 
-    public CoinProjectileEntity(double x, double y, double z, World world) {
+    public CoinProjectileEntity(ItemStack stack, double x, double y, double z, World world) {
         super(Marksman.COIN_PROJECTILE, x, y, z, world);
+        setItem(stack);
     }
 
-    public CoinProjectileEntity(LivingEntity owner, World world) {
+    public CoinProjectileEntity(ItemStack stack, LivingEntity owner, World world) {
         super(Marksman.COIN_PROJECTILE, owner, world);
+        setItem(stack);
     }
 
-    public CoinProjectileEntity(World world, @Nullable LivingEntity owner, Vec3d pos) {
-        this(pos.x, pos.y, pos.z, world);
+    public CoinProjectileEntity(World world, @Nullable LivingEntity owner, ItemStack stack, Vec3d pos) {
+        this(stack, pos.x, pos.y, pos.z, world);
         setOwner(owner);
     }
 
